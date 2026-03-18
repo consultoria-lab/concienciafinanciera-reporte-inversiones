@@ -1,0 +1,9 @@
+ticker: "USDCOP=X"
+asset_name: "Dólar / Peso (USD/COP)"
+categoria: "Alternativos"
+subcategoria: "Divisas"
+nivel_riesgo: "Medio"
+moneda: "COP/USD"
+fuente: "Yahoo Finance (yfinance) — Tasa de cambio USD/COP"
+years: 10
+nota: "El CAGR representa la apreciación anualizada del USD vs el COP. Precio = COP por 1 USD."

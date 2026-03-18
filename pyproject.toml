@@ -1,0 +1,18 @@
+[project]
+name = "reporte-inversiones"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "langchain>=1.2.12",
+    "langchain-openai>=0.3.0",
+    "langgraph>=1.1.2",
+    "numpy>=2.4.3",
+    "openpyxl>=3.1.5",
+    "pandas>=3.0.1",
+    "playwright>=1.58.0",
+    "pyyaml>=6.0.3",
+    "xlrd>=2.0.2",
+    "yfinance>=1.2.0",
+]

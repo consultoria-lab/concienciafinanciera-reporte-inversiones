@@ -1,0 +1,60 @@
+nombre: Cuentas de Ahorro
+categoria: Renta Fija
+nivel_riesgo: Bajo
+fuente: Superintendencia Financiera de Colombia
+fuente_url: "https://www.superfinanciera.gov.co/Superfinanciera-Tasas/faces/generic/passiveInterestRates.xhtml"
+columna_referencia: "Depósitos de ahorro activos"
+percentil: 75
+
+# Clasificación de entidades por tipo
+# Usado por el analyzer para agrupar los resultados
+clasificacion:
+  neobancos:
+    - "RappiPay"
+    - "LULO BANK"
+    - "NU o NU Financiera"
+    - "DAVIBANK S.A."
+    - "BAN100 S.A."
+    - "FINANDINA BIC"
+    - "BANCO FINANDINA BIC"
+
+  tradicionales:
+    - "Av Villas"
+    - "BANCO AGRARIO DE COLOMBIA"
+    - "BANAGRARIO"
+    - "BANCO CAJA SOCIAL"
+    - "BANCO CONTACTAR"
+    - "BANCO DE BOGOTÁ S.A."
+    - "BANCO SANTANDER COLOMBIA S.A."
+    - "BANCO SERFINANZA S.A."
+    - "BANCO UNIÓN S.A."
+    - "BANCO W S.A."
+    - "BBVA Colombia"
+    - "Bancamía S.A."
+    - "Banco Davivienda"
+    - "Banco Falabella S.A."
+    - "Banco GNB Sudameris"
+    - "Banco Mundo Mujer S.A."
+    - "Banco Pichincha S.A."
+    - "Banco Popular"
+    - "Banco de Occidente"
+    - "Bancolombia"
+    - "Bancoomeva"
+    - "CORFICOLOMBIANA S.A."
+    - "Credifamilia"
+    - "Itaú"
+    - "Banco Itaú"
+    - "Mibanco S.A."
+
+  cfcs_cooperativas:
+    - "COOPERATIVA FINANCIERA DE ANTIOQUIA CFA"
+    - "CFA"
+    - "CREZCAMOS S.A."
+    - "Coltefinanciera"
+    - "Confiar Cooperativa Financiera"
+    - "Coopcentral"
+    - "Cotrafa Financiera"
+    - "Financiera Juriscoop C.F."
+    - "GM FINANCIAL COLOMBIA S.A."
+    - "JFK COOPERATIVA FINANCIERA"
+    - "Tuya"

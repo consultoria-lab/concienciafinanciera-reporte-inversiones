@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reporte Weekly Alpha — Conciencia Financiera</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; background: #f5f6fa; color: #222; }
+
+    header {
+      background: #1a1a2e;
+      color: #fff;
+      padding: 24px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 { font-size: 1.6rem; letter-spacing: 1px; }
+    header .fecha { font-size: 0.9rem; color: #aaa; }
+
+    main { max-width: 1100px; margin: 32px auto; padding: 0 20px; }
+
+    .disclaimer {
+      background: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 12px 16px;
+      margin-bottom: 28px;
+      font-size: 0.85rem;
+      color: #555;
+    }
+
+    .asset-section {
+      background: #fff;
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 28px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+    .asset-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .asset-header h2 { font-size: 1.3rem; color: #1a1a2e; }
+    .badge {
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 0.78rem;
+      font-weight: bold;
+    }
+    .badge.riesgo-bajo { background: #d4edda; color: #155724; }
+    .badge.riesgo-medio { background: #fff3cd; color: #856404; }
+    .badge.riesgo-alto { background: #f8d7da; color: #721c24; }
+    .badge.cat { background: #e8eaf6; color: #3949ab; }
+    .badge.subcat { background: #fce4ec; color: #880e4f; }
+
+    .market-metrics-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+    .metric-tile {
+      background: #f8f9ff;
+      border: 1px solid #e0e4f0;
+      border-radius: 8px;
+      padding: 14px 16px;
+      text-align: center;
+    }
+    .metric-label { font-size: 0.75rem; color: #888; margin-bottom: 6px; }
+    .metric-value { font-size: 1.25rem; font-weight: bold; }
+    .metric-value.cagr { color: #1a73e8; }
+    .metric-value.vol { color: #e67e22; }
+    .metric-value.band { color: #555; font-size: 1rem; }
+    .metric-value.price { color: #1a1a2e; }
+    .metric-sub { font-size: 0.72rem; color: #aaa; margin-top: 4px; }
+
+    .tasa-ref {
+      font-size: 1rem;
+      color: #444;
+      margin-bottom: 20px;
+      padding: 10px 14px;
+      background: #e8f4fd;
+      border-radius: 6px;
+      border-left: 3px solid #1a73e8;
+    }
+    .tasa-ref strong { color: #1a73e8; font-size: 1.1rem; }
+
+    .groups-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    .group-card {
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .group-card h3 {
+      background: #1a1a2e;
+      color: #fff;
+      padding: 10px 14px;
+      font-size: 0.95rem;
+    }
+    .p75-badge {
+      background: #e8f4fd;
+      padding: 6px 14px;
+      font-size: 0.85rem;
+      color: #1a73e8;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .rango-badge {
+      background: #f5f5f5;
+      padding: 4px 14px;
+      font-size: 0.8rem;
+      color: #666;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    thead tr { background: #f5f6fa; }
+    th, td { padding: 8px 14px; text-align: left; border-bottom: 1px solid #f0f0f0; }
+    tr.top-rate td { font-weight: bold; color: #155724; background: #f0fff4; }
+    tr:hover td { background: #fafafa; }
+
+    .fuente { font-size: 0.78rem; color: #999; margin-top: 14px; }
+
+    footer {
+      text-align: center;
+      padding: 24px;
+      font-size: 0.8rem;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Reporte Weekly Alpha · Conciencia Financiera</h1>
+    <span class="fecha">Generado: 17/03/2026 13:58</span>
+  </header>
+
+  <main>
+    <div class="disclaimer">
+      <strong>Aviso legal:</strong> Este reporte es de carácter informativo y no constituye
+      una recomendación de inversión. La información proviene de fuentes públicas (Superintendencia
+      Financiera de Colombia). Consulte con un asesor financiero certificado antes de tomar
+      decisiones de inversión.
+    </div>
+
+    
+    <section class="asset-section">
+      <div class="asset-header">
+        <h2>Cuentas de Ahorro</h2>
+        <span class="badge riesgo-bajo">Bajo Riesgo</span>
+        <span class="badge cat">Renta Fija</span>
+        
+      </div>
+      <div class="tasa-ref">
+        Tasa de referencia (P75 global): <strong>4.16%</strong> EA
+        &nbsp;·&nbsp;Corte: 2026-03-12
+      </div>
+      <div class="groups-container">
+        
+    <div class="group-card">
+      <h3>Neobancos</h3>
+      <div class="p75-badge">P75: <strong>8.95%</strong></div>
+      <div class="rango-badge">Rango: 1.96% – 9.75%</div>
+      <table>
+        <thead><tr><th>Entidad</th><th>Tasa Activa EA</th></tr></thead>
+        <tbody><tr class="top-rate"><td>BAN100 S.A.</td><td>9.75%</td></tr>
+<tr><td>FINANDINA BIC o BANCO FINANDINA BIC</td><td>9.15%</td></tr>
+<tr><td>NU o NU Financiera</td><td>8.34%</td></tr>
+<tr><td>LULO BANK</td><td>7.95%</td></tr>
+<tr><td>RappiPay</td><td>6.53%</td></tr>
+<tr><td>DAVIBANK S.A. o DAVIBANK.</td><td>1.96%</td></tr>
+</tbody>
+      </table>
+    </div>
+    
+    <div class="group-card">
+      <h3>Bancos Tradicionales</h3>
+      <div class="p75-badge">P75: <strong>3.57%</strong></div>
+      <div class="rango-badge">Rango: 0.07% – 11.00%</div>
+      <table>
+        <thead><tr><th>Entidad</th><th>Tasa Activa EA</th></tr></thead>
+        <tbody><tr class="top-rate"><td>Banco Pichincha S.A.</td><td>11.00%</td></tr>
+<tr><td>BANCO CONTACTAR</td><td>7.48%</td></tr>
+<tr><td>Bancamía S.A.</td><td>6.16%</td></tr>
+<tr><td>BANCO SERFINANZA S.A.</td><td>4.48%</td></tr>
+<tr><td>Bancoomeva</td><td>3.84%</td></tr>
+<tr><td>Itaú; Banco Itaú.</td><td>3.57%</td></tr>
+<tr><td>Banco Mundo Mujer S.A.</td><td>2.98%</td></tr>
+<tr><td>BANCO W S.A.</td><td>2.19%</td></tr>
+<tr><td>Banco Falabella S.A.</td><td>2.13%</td></tr>
+<tr><td>Mibanco S.A.</td><td>1.55%</td></tr>
+<tr><td>Banco de Occidente</td><td>1.50%</td></tr>
+<tr><td>BANCO CAJA SOCIAL</td><td>0.87%</td></tr>
+<tr><td>Banco GNB Sudameris</td><td>0.85%</td></tr>
+<tr><td>BANCO AGRARIO DE COLOMBIA o BANAGRARIO.</td><td>0.78%</td></tr>
+<tr><td>Banco Popular</td><td>0.72%</td></tr>
+<tr><td>Banco Davivienda</td><td>0.45%</td></tr>
+<tr><td>Av Villas</td><td>0.44%</td></tr>
+<tr><td>BANCO UNIÓN S.A.</td><td>0.43%</td></tr>
+<tr><td>BBVA Colombia</td><td>0.35%</td></tr>
+<tr><td>BANCO DE BOGOTÁ S.A.</td><td>0.23%</td></tr>
+<tr><td>Bancolombia</td><td>0.07%</td></tr>
+<tr><td>BANCO SANTANDER COLOMBIA S.A. (en adelante, el "Banco")</td><td>0.00%</td></tr>
+<tr><td>CORFICOLOMBIANA S.A., CORFICOL S.A. o CORFI S.A.</td><td>—</td></tr>
+<tr><td>Credifamilia</td><td>—</td></tr>
+</tbody>
+      </table>
+    </div>
+    
+    <div class="group-card">
+      <h3>CFCs / Cooperativas</h3>
+      <div class="p75-badge">P75: <strong>1.13%</strong></div>
+      <div class="rango-badge">Rango: 0.17% – 1.77%</div>
+      <table>
+        <thead><tr><th>Entidad</th><th>Tasa Activa EA</th></tr></thead>
+        <tbody><tr class="top-rate"><td>Coltefinanciera</td><td>1.77%</td></tr>
+<tr><td>Financiera Juriscoop C.F.</td><td>1.52%</td></tr>
+<tr><td>JFK COOPERATIVA FINANCIERA</td><td>1.00%</td></tr>
+<tr><td>Cotrafa Financiera</td><td>0.62%</td></tr>
+<tr><td>COOPERATIVA FINANCIERA DE ANTIOQUIA CFA</td><td>0.53%</td></tr>
+<tr><td>Confiar Cooperativa Financiera</td><td>0.46%</td></tr>
+<tr><td>CREZCAMOS S.A.</td><td>0.35%</td></tr>
+<tr><td>Coopcentral</td><td>0.17%</td></tr>
+<tr><td>GM FINANCIAL COLOMBIA S.A. COMPAÑÍA DE FINANCIAMIENTO</td><td>0.00%</td></tr>
+<tr><td>Tuya</td><td>0.00%</td></tr>
+</tbody>
+      </table>
+    </div>
+    
+      </div>
+      <p class="fuente">Fuente: Superintendencia Financiera de Colombia</p>
+    </section>
+    
+    <section class="asset-section">
+      <div class="asset-header">
+        <h2>CDT</h2>
+        <span class="badge riesgo-bajo">Bajo Riesgo</span>
+        <span class="badge cat">Renta Fija</span>
+        
+      </div>
+      <div class="tasa-ref">
+        Tasa de referencia (P75 global): <strong>11.36%</strong> EA
+        &nbsp;·&nbsp;Corte: 2026-03-16
+      </div>
+      <div class="groups-container">
+        
+    <div class="group-card">
+      <h3>Neobancos</h3>
+      <div class="p75-badge">P75: <strong>11.16%</strong></div>
+      <div class="rango-badge">Rango: 9.70% – 11.40%</div>
+      <table>
+        <thead><tr><th>Entidad</th><th>Tasa Activa EA</th></tr></thead>
+        <tbody><tr class="top-rate"><td>DAVIBANK S.A. o DAVIBANK.</td><td>11.40%</td></tr>
+<tr><td>BAN100 S.A.</td><td>11.08%</td></tr>
+<tr><td>FINANDINA BIC o BANCO FINANDINA BIC</td><td>11.02%</td></tr>
+<tr><td>NU o NU Financiera</td><td>9.70%</td></tr>
+</tbody>
+      </table>
+    </div>
+    
+    <div class="group-card">
+      <h3>Bancos Tradicionales</h3>
+      <div class="p75-badge">P75: <strong>11.46%</strong></div>
+      <div class="rango-badge">Rango: 7.42% – 12.94%</div>
+      <table>
+        <thead><tr><th>Entidad</th><th>Tasa Activa EA</th></tr></thead>
+        <tbody><tr class="top-rate"><td>La Hipotecaria</td><td>12.94%</td></tr>
+<tr><td>BANCO CONTACTAR</td><td>12.02%</td></tr>
+<tr><td>Mibanco S.A.</td><td>12.00%</td></tr>
+<tr><td>Itaú; Banco Itaú.</td><td>11.72%</td></tr>
+<tr><td>Banco de Occidente</td><td>11.59%</td></tr>
+<tr><td>Bancamía S.A.</td><td>11.55%</td></tr>
+<tr><td>BANCO SANTANDER COLOMBIA S.A. (en adelante, el "Banco")</td><td>11.50%</td></tr>
+<tr><td>Banco Pichincha S.A.</td><td>11.35%</td></tr>
+<tr><td>KOA CF</td><td>11.30%</td></tr>
+<tr><td>BANCO W S.A.</td><td>11.26%</td></tr>
+<tr><td>BANCO SERFINANZA S.A.</td><td>11.11%</td></tr>
+<tr><td>Credifamilia</td><td>11.09%</td></tr>
+<tr><td>Banco Popular</td><td>10.89%</td></tr>
+<tr><td>Banco Mundo Mujer S.A.</td><td>10.47%</td></tr>
+<tr><td>BANCO DE BOGOTÁ S.A.</td><td>10.43%</td></tr>
+<tr><td>Banco Falabella S.A.</td><td>10.43%</td></tr>
+<tr><td>BANCO UNIÓN S.A.</td><td>10.37%</td></tr>
+<tr><td>Banco GNB Sudameris</td><td>10.36%</td></tr>
+<tr><td>BBVA Colombia</td><td>10.25%</td></tr>
+<tr><td>Bancoomeva</td><td>10.17%</td></tr>
+<tr><td>Bancolombia</td><td>10.05%</td></tr>
+<tr><td>Banco Davivienda</td><td>10.00%</td></tr>
+<tr><td>IRIS CF</td><td>9.94%</td></tr>
+<tr><td>Av Villas</td><td>9.91%</td></tr>
+<tr><td>BANCO AGRARIO DE COLOMBIA o BANAGRARIO.</td><td>8.69%</td></tr>
+<tr><td>BANCO CAJA SOCIAL</td><td>7.42%</td></tr>
+<tr><td>Findeter</td><td>0.00%</td></tr>
+<tr><td>•La tasa efectiva anual que se presenta corresponde al promedio ponderado de los depósitos efectuados en cada producto durante el día de la fecha de reporte.</td><td>—</td></tr>
+</tbody>
+      </table>
+    </div>
+    
+    <div class="group-card">
+      <h3>CFCs / Cooperativas</h3>
+      <div class="p75-badge">P75: <strong>11.11%</strong></div>
+      <div class="rango-badge">Rango: 7.54% – 12.07%</div>
+      <table>
+        <thead><tr><th>Entidad</th><th>Tasa Activa EA</th></tr></thead>
+        <tbody><tr class="top-rate"><td>Tuya</td><td>12.07%</td></tr>
+<tr><td>CREZCAMOS S.A.</td><td>11.81%</td></tr>
+<tr><td>Bold C.F.", "Bold CF S.A.", o "Bold. CF</td><td>11.20%</td></tr>
+<tr><td>Coltefinanciera</td><td>10.84%</td></tr>
+<tr><td>Financiera Juriscoop C.F.</td><td>9.92%</td></tr>
+<tr><td>JFK COOPERATIVA FINANCIERA</td><td>9.15%</td></tr>
+<tr><td>Cotrafa Financiera</td><td>8.82%</td></tr>
+<tr><td>Confiar Cooperativa Financiera</td><td>7.87%</td></tr>
+<tr><td>Coopcentral</td><td>7.81%</td></tr>
+<tr><td>COOPERATIVA FINANCIERA DE ANTIOQUIA CFA</td><td>7.54%</td></tr>
+<tr><td>CORFICOLOMBIANA S.A., CORFICOL S.A. o CORFI S.A.</td><td>—</td></tr>
+<tr><td>GM FINANCIAL COLOMBIA S.A. COMPAÑÍA DE FINANCIAMIENTO</td><td>0.00%</td></tr>
+</tbody>
+      </table>
+    </div>
+    
+      </div>
+      <p class="fuente">Fuente: Superintendencia Financiera de Colombia</p>
+    </section>
+    
+    <section class="asset-section">
+      <div class="asset-header">
+        <h2>S&P 500 (SPY)</h2>
+        <span class="badge riesgo-alto">Alto Riesgo</span>
+        <span class="badge cat">Renta Variable</span>
+        <span class="badge subcat">Mercados Internacionales</span>
+      </div>
+      <div class="market-metrics-strip">
+        <div class="metric-tile">
+          <div class="metric-label">Retorno anualizado (CAGR)</div>
+          <div class="metric-value cagr">+14.53%</div>
+          <div class="metric-sub">últimos 10 años</div>
+        </div>
+        <div class="metric-tile">
+          <div class="metric-label">Volatilidad anualizada</div>
+          <div class="metric-value vol">17.87%</div>
+          <div class="metric-sub">desv. estándar diaria × √252</div>
+        </div>
+        <div class="metric-tile">
+          <div class="metric-label">Banda 1σ (CAGR ± Vol)</div>
+          <div class="metric-value band">-3.34% / +32.40%</div>
+          <div class="metric-sub">escenario típico</div>
+        </div>
+        <div class="metric-tile">
+          <div class="metric-label">Precio actual</div>
+          <div class="metric-value price">USD 671.07</div>
+          <div class="metric-sub">2026-03-17</div>
+        </div>
+      </div>
+      <p class="fuente">Fuente: Yahoo Finance (yfinance)&nbsp;·&nbsp;Período: 2016-03-17 / 2026-03-17</p>
+    </section>
+    
+    <section class="asset-section">
+      <div class="asset-header">
+        <h2>Oro (GLD)</h2>
+        <span class="badge riesgo-medio">Medio Riesgo</span>
+        <span class="badge cat">Alternativos</span>
+        <span class="badge subcat">Commodities</span>
+      </div>
+      <div class="market-metrics-strip">
+        <div class="metric-tile">
+          <div class="metric-label">Retorno anualizado (CAGR)</div>
+          <div class="metric-value cagr">+14.40%</div>
+          <div class="metric-sub">últimos 10 años</div>
+        </div>
+        <div class="metric-tile">
+          <div class="metric-label">Volatilidad anualizada</div>
+          <div class="metric-value vol">15.62%</div>
+          <div class="metric-sub">desv. estándar diaria × √252</div>
+        </div>
+        <div class="metric-tile">
+          <div class="metric-label">Banda 1σ (CAGR ± Vol)</div>
+          <div class="metric-value band">-1.22% / +30.02%</div>
+          <div class="metric-sub">escenario típico</div>
+        </div>
+        <div class="metric-tile">
+          <div class="metric-label">Precio actual</div>
+          <div class="metric-value price">USD 459.70</div>
+          <div class="metric-sub">2026-03-17</div>
+        </div>
+      </div>
+      <p class="fuente">Fuente: Yahoo Finance (yfinance)&nbsp;·&nbsp;Período: 2016-03-17 / 2026-03-17</p>
+    </section>
+    
+    <section class="asset-section">
+      <div class="asset-header">
+        <h2>Petróleo WTI (CL=F)</h2>
+        <span class="badge riesgo-alto">Alto Riesgo</span>
+        <span class="badge cat">Alternativos</span>
+        <span class="badge subcat">Commodities</span>
+      </div>
+      <div class="market-metrics-strip">
+        <div class="metric-tile">
+          <div class="metric-label">Retorno anualizado (CAGR)</div>
+          <div class="metric-value cagr">+9.05%</div>
+          <div class="metric-sub">últimos 10 años</div>
+        </div>
+        <div class="metric-tile">
+          <div class="metric-label">Volatilidad anualizada</div>
+          <div class="metric-value vol">114.15%</div>
+          <div class="metric-sub">desv. estándar diaria × √252</div>
+        </div>
+        <div class="metric-tile">
+          <div class="metric-label">Banda 1σ (CAGR ± Vol)</div>
+          <div class="metric-value band">-105.10% / +123.20%</div>
+          <div class="metric-sub">escenario típico</div>
+        </div>
+        <div class="metric-tile">
+          <div class="metric-label">Precio actual</div>
+          <div class="metric-value price">USD 95.40</div>
+          <div class="metric-sub">2026-03-17</div>
+        </div>
+      </div>
+      <p class="fuente">Fuente: Yahoo Finance (yfinance) — WTI Crude Oil Futures&nbsp;·&nbsp;Período: 2016-03-17 / 2026-03-17</p>
+    </section>
+    
+    <section class="asset-section">
+      <div class="asset-header">
+        <h2>Dólar / Peso (USD/COP)</h2>
+        <span class="badge riesgo-medio">Medio Riesgo</span>
+        <span class="badge cat">Alternativos</span>
+        <span class="badge subcat">Divisas</span>
+      </div>
+      <div class="market-metrics-strip">
+        <div class="metric-tile">
+          <div class="metric-label">Retorno anualizado (CAGR)</div>
+          <div class="metric-value cagr">+1.64%</div>
+          <div class="metric-sub">últimos 10 años</div>
+        </div>
+        <div class="metric-tile">
+          <div class="metric-label">Volatilidad anualizada</div>
+          <div class="metric-value vol">16.61%</div>
+          <div class="metric-sub">desv. estándar diaria × √252</div>
+        </div>
+        <div class="metric-tile">
+          <div class="metric-label">Banda 1σ (CAGR ± Vol)</div>
+          <div class="metric-value band">-14.97% / +18.25%</div>
+          <div class="metric-sub">escenario típico</div>
+        </div>
+        <div class="metric-tile">
+          <div class="metric-label">Precio actual</div>
+          <div class="metric-value price">COP/USD 3,689.28</div>
+          <div class="metric-sub">2026-03-17</div>
+        </div>
+      </div>
+      <p class="fuente">Fuente: Yahoo Finance (yfinance) — Tasa de cambio USD/COP&nbsp;·&nbsp;Período: 2016-03-17 / 2026-03-17</p>
+    </section>
+    
+    <section class="asset-section">
+      <div class="asset-header">
+        <h2>Bitcoin (BTC)</h2>
+        <span class="badge riesgo-alto">Alto Riesgo</span>
+        <span class="badge cat">Digital Assets</span>
+        <span class="badge subcat">Criptomonedas</span>
+      </div>
+      <div class="market-metrics-strip">
+        <div class="metric-tile">
+          <div class="metric-label">Retorno anualizado (CAGR)</div>
+          <div class="metric-value cagr">+42.94%</div>
+          <div class="metric-sub">últimos 10 años</div>
+        </div>
+        <div class="metric-tile">
+          <div class="metric-label">Volatilidad anualizada</div>
+          <div class="metric-value vol">55.85%</div>
+          <div class="metric-sub">desv. estándar diaria × √252</div>
+        </div>
+        <div class="metric-tile">
+          <div class="metric-label">Banda 1σ (CAGR ± Vol)</div>
+          <div class="metric-value band">-12.91% / +98.79%</div>
+          <div class="metric-sub">escenario típico</div>
+        </div>
+        <div class="metric-tile">
+          <div class="metric-label">Precio actual</div>
+          <div class="metric-value price">USD 74,666.84</div>
+          <div class="metric-sub">2026-03-17</div>
+        </div>
+      </div>
+      <p class="fuente">Fuente: Yahoo Finance (yfinance)&nbsp;·&nbsp;Período: 2016-03-17 / 2026-03-17</p>
+    </section>
+    
+  </main>
+
+  <footer>
+    Conciencia Financiera · Medellín, Colombia · Información de carácter público
+  </footer>
+</body>
+</html>

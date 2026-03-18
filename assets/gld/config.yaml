@@ -1,0 +1,8 @@
+ticker: "GLD"
+asset_name: "Oro (GLD)"
+categoria: "Alternativos"
+subcategoria: "Commodities"
+nivel_riesgo: "Medio"
+moneda: "USD"
+fuente: "Yahoo Finance (yfinance)"
+years: 10

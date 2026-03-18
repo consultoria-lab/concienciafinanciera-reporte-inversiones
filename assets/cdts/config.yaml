@@ -1,0 +1,36 @@
+nombre: CDT
+categoria: Renta Fija
+nivel_riesgo: Bajo
+fuente: Superintendencia Financiera de Colombia
+fuente_url: "https://www.superfinanciera.gov.co/Superfinanciera-Tasas/faces/generic/passiveInterestRates.xhtml"
+columna_referencia: "A 180 días"
+columna_referencia_idx: 12
+percentil: 75
+
+# Clasificación de entidades por tipo (coincidencia parcial, case-insensitive)
+clasificacion:
+  neobancos:
+    - "RappiPay"
+    - "LULO BANK"
+    - "NU o NU Financiera"
+    - "DAVIBANK"
+    - "BAN100"
+    - "FINANDINA BIC"
+    - "BANCO FINANDINA BIC"
+
+  cfcs_cooperativas:
+    - "Bold"
+    - "CFA"
+    - "Coltefinanciera"
+    - "Confiar"
+    - "Coopcentral"
+    - "Cotrafa"
+    - "COOPERATIVA"
+    - "Financiera Juriscoop"
+    - "GM FINANCIAL"
+    - "JFK"
+    - "Tuya"
+    - "CREZCAMOS"
+    - "CORFICOLOMBIANA"
+
+  # El resto → Bancos Tradicionales (default)

@@ -1,0 +1,8 @@
+ticker: "SPY"
+asset_name: "S&P 500 (SPY)"
+categoria: "Renta Variable"
+subcategoria: "Mercados Internacionales"
+nivel_riesgo: "Alto"
+moneda: "USD"
+fuente: "Yahoo Finance (yfinance)"
+years: 10

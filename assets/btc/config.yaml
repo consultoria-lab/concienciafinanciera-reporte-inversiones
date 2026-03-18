@@ -1,0 +1,9 @@
+ticker: "BTC-USD"
+asset_name: "Bitcoin (BTC)"
+categoria: "Digital Assets"
+subcategoria: "Criptomonedas"
+nivel_riesgo: "Alto"
+moneda: "USD"
+fuente: "Yahoo Finance (yfinance)"
+years: 10
+nota: "Alta volatilidad — la banda 1σ puede ser muy amplia. Datos disponibles desde ~2014."

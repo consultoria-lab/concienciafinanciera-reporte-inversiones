@@ -1,0 +1,8 @@
+ticker: "CL=F"
+asset_name: "Petróleo WTI (CL=F)"
+categoria: "Alternativos"
+subcategoria: "Commodities"
+nivel_riesgo: "Alto"
+moneda: "USD"
+fuente: "Yahoo Finance (yfinance) — WTI Crude Oil Futures"
+years: 10
