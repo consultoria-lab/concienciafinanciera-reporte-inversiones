@@ -31,8 +31,12 @@ node_modules/
 Thumbs.db
 
 # Downloaded data and generated reports
-data/downloads/
+data/downloads/*
+!data/downloads/.gitkeep
 reports/
+
+# Claude Code
+CLAUDE.md
 
 # Temp
 *.stackdump
