@@ -1,0 +1,141 @@
+{
+  "colorScheme": "light",
+  "fonts": [
+    {
+      "family": "Source Sans Pro",
+      "role": "body"
+    }
+  ],
+  "colors": {
+    "primary": "#7D8264",
+    "accent": "#000000",
+    "background": "#26281C",
+    "textPrimary": "#26281C",
+    "link": "#3B3E2D"
+  },
+  "typography": {
+    "fontFamilies": {
+      "primary": "Source Sans Pro",
+      "heading": "Source Sans Pro"
+    },
+    "fontStacks": {
+      "heading": [
+        "Source Sans Pro",
+        "arial",
+        "sans-serif"
+      ],
+      "body": [
+        "Times New Roman"
+      ],
+      "paragraph": [
+        "Source Sans Pro",
+        "arial",
+        "sans-serif"
+      ]
+    },
+    "fontSizes": {
+      "h1": "64px",
+      "h2": "48px",
+      "body": "18px"
+    }
+  },
+  "spacing": {
+    "baseUnit": 4,
+    "borderRadius": "0px"
+  },
+  "components": {
+    "input": {
+      "background": "transparent",
+      "textColor": "#BFBFBF",
+      "borderColor": "#FFFFFF",
+      "borderRadius": "4px",
+      "borderRadiusCorners": {
+        "topLeft": "4px",
+        "topRight": "4px",
+        "bottomRight": "4px",
+        "bottomLeft": "4px"
+      },
+      "shadow": "none"
+    },
+    "buttonPrimary": {
+      "background": "#000000",
+      "textColor": "#FFFFFF",
+      "borderRadius": "4px",
+      "borderRadiusCorners": {
+        "topLeft": "4px",
+        "topRight": "4px",
+        "bottomRight": "4px",
+        "bottomLeft": "4px"
+      },
+      "shadow": "none"
+    },
+    "buttonSecondary": {
+      "background": "#FFFFFF",
+      "textColor": "#000000",
+      "borderRadius": "4px",
+      "borderRadiusCorners": {
+        "topLeft": "4px",
+        "topRight": "4px",
+        "bottomRight": "4px",
+        "bottomLeft": "4px"
+      },
+      "shadow": "none"
+    }
+  },
+  "images": {
+    "logo": "https://img1.wsimg.com/isteam/ip/e6df01d8-56ee-4865-a049-3a1bdab69273/blob-3a2a4a0.png/:/rs=h:127,cg:true,m/qt=q:95",
+    "favicon": "https://img1.wsimg.com/isteam/ip/e6df01d8-56ee-4865-a049-3a1bdab69273/blob-3a2a4a0.png/:/rs=w:57,h:57,m",
+    "ogImage": "https://img1.wsimg.com/isteam/ip/e6df01d8-56ee-4865-a049-3a1bdab69273/Baner5.png",
+    "logoHref": "/",
+    "logoAlt": "ConCiencia Financiera"
+  },
+  "__llm_logo_reasoning": {
+    "selectedIndex": 1,
+    "reasoning": "Selected #1 because it is visible, located in the header, has a medium/large size, and the alt text matches the brand name 'ConCiencia Financiera'.",
+    "confidence": 0.95,
+    "source": "llm"
+  },
+  "__llm_button_reasoning": {
+    "primary": {
+      "index": 1,
+      "text": "RESERVAR",
+      "reasoning": "Button #1 ('RESERVAR') has a strong call-to-action text and a distinct dark background color (#000000), making it stand out as the primary CTA."
+    },
+    "secondary": {
+      "index": 2,
+      "text": "Obtén más información",
+      "reasoning": "Button #2 ('Obtén más información') has a different background color (#FFFFFF) and serves as a secondary action with informative text."
+    },
+    "confidence": 0.9
+  },
+  "personality": {
+    "tone": "professional",
+    "energy": "medium",
+    "targetAudience": "Spanish-speaking individuals interested in financial education"
+  },
+  "designSystem": {
+    "framework": "custom",
+    "componentLibrary": ""
+  },
+  "confidence": {
+    "buttons": 0.9,
+    "colors": 0.9,
+    "overall": 0.9
+  },
+  "__llm_metadata": {
+    "logoSelection": {
+      "llmCalled": true,
+      "llmSucceeded": true,
+      "finalSource": "llm",
+      "rawLogoSelection": {
+        "selectedLogoIndex": 1,
+        "selectedLogoReasoning": "Selected #1 because it is visible, located in the header, has a medium/large size, and the alt text matches the brand name 'ConCiencia Financiera'.",
+        "confidence": 0.95
+      }
+    },
+    "buttonClassification": {
+      "llmCalled": true,
+      "llmSucceeded": true
+    }
+  }
+}

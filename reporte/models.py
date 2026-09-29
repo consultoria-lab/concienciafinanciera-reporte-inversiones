@@ -1,6 +1,34 @@
 from dataclasses import dataclass, field
 from datetime import datetime
 
+from pydantic import BaseModel
+
+
+# ---------------------------------------------------------------------------
+# Pydantic models for LLM structured output (recommend_node)
+# ---------------------------------------------------------------------------
+
+class AsignacionActivo(BaseModel):
+    activo: str
+    porcentaje: int
+    razon: str
+
+
+class PerfilRecomendacion(BaseModel):
+    perfil: str  # Conservador / Moderado / Agresivo
+    asignacion: list[AsignacionActivo]
+    nota: str
+
+
+class Recomendaciones(BaseModel):
+    perfiles: list[PerfilRecomendacion]
+    resumen_mercado: str
+
+
+# ---------------------------------------------------------------------------
+# Dataclasses for pipeline state
+# ---------------------------------------------------------------------------
+
 
 @dataclass
 class Entidad:

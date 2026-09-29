@@ -240,7 +240,10 @@ def _analyze_with_agent(file_path: Path, skill_text: str) -> dict:
     )
 
     try:
-        result = agent.invoke({"messages": [("user", task)]})
+        result = agent.invoke(
+            {"messages": [("user", task)]},
+            {"recursion_limit": 5},
+        )
         structured: ExtractionOutput = result["structured_response"]
         return {
             "corte": structured.corte,

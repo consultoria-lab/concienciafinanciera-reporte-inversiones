@@ -12,6 +12,10 @@ import argparse
 import sys
 from pathlib import Path
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 def main():
     parser = argparse.ArgumentParser(description="Conciencia Financiera — Reporte Weekly Alpha")
@@ -61,10 +65,13 @@ def _run_analyze_only():
     from reporte.assets.cuentas_ahorro.analyzer import analyze
 
     downloads_dir = Path("data/downloads")
+    sample_dir = Path("data/sample")
     excel_files = sorted(downloads_dir.glob("cuentas_ahorro_*.xls*"), reverse=True)
+    if not excel_files:
+        excel_files = sorted(sample_dir.glob("cuentas_ahorro_*.xls*"))
 
     if not excel_files:
-        print("No hay archivos descargados en data/downloads/. Ejecuta sin --analyze-only primero.")
+        print("No hay archivos en data/downloads/ ni data/sample/. Ejecuta sin --analyze-only primero.")
         sys.exit(1)
 
     latest = excel_files[0]

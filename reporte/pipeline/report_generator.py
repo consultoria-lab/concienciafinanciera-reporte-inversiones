@@ -3,6 +3,9 @@ Generador de reporte HTML.
 
 Toma un ReportData con los AssetData de todos los activos y genera
 un archivo HTML en reports/reporte_YYYYMMDD.html.
+
+Opcionalmente incluye una seccion de recomendaciones por perfil de inversor
+generada por el recommend_node del pipeline.
 """
 from __future__ import annotations
 
@@ -68,7 +71,7 @@ def _render_renta_fija_section(asset: AssetData) -> str:
 
 
 def _render_fic_section(asset: AssetData) -> str:
-    """Renderiza sección para activos FIC (Fondos de Inversión Colectiva)."""
+    """Renderiza seccion para activos FIC (Fondos de Inversion Colectiva)."""
     m = asset.metricas_mercado
     media_pct = m["rentabilidad_media"] * 100
     vol_pct = m["volatilidad"] * 100
@@ -92,17 +95,17 @@ def _render_fic_section(asset: AssetData) -> str:
         <div class="metric-tile">
           <div class="metric-label">Rentabilidad media anual</div>
           <div class="metric-value cagr">{sign}{media_pct:.2f}%</div>
-          <div class="metric-sub">promedio último año</div>
+          <div class="metric-sub">promedio ultimo ano</div>
         </div>
         <div class="metric-tile">
-          <div class="metric-label">Volatilidad (σ)</div>
+          <div class="metric-label">Volatilidad (sigma)</div>
           <div class="metric-value vol">{vol_pct:.2f}%</div>
-          <div class="metric-sub">desv. estándar rentabilidad anual</div>
+          <div class="metric-sub">desv. estandar rentabilidad anual</div>
         </div>
         <div class="metric-tile">
-          <div class="metric-label">Banda ±1σ</div>
+          <div class="metric-label">Banda +/-1sigma</div>
           <div class="metric-value band">{r0_sign}{r0:.2f}% / {r1_sign}{r1:.2f}%</div>
-          <div class="metric-sub">escenario típico</div>
+          <div class="metric-sub">escenario tipico</div>
         </div>
         <div class="metric-tile">
           <div class="metric-label">Fondo</div>
@@ -110,7 +113,7 @@ def _render_fic_section(asset: AssetData) -> str:
           <div class="metric-sub">{n_registros} registros</div>
         </div>
       </div>
-      <p class="fuente">Fuente: {asset.fuente}&nbsp;·&nbsp;Período: {periodo}</p>
+      <p class="fuente">Fuente: {asset.fuente}&nbsp;·&nbsp;Periodo: {periodo}</p>
     </section>
     """
 
@@ -139,17 +142,17 @@ def _render_market_asset_section(asset: AssetData) -> str:
         <div class="metric-tile">
           <div class="metric-label">Retorno anualizado (CAGR)</div>
           <div class="metric-value cagr">{sign}{cagr_pct:.2f}%</div>
-          <div class="metric-sub">últimos 10 años</div>
+          <div class="metric-sub">ultimos 10 anos</div>
         </div>
         <div class="metric-tile">
           <div class="metric-label">Volatilidad anualizada</div>
           <div class="metric-value vol">{vol_pct:.2f}%</div>
-          <div class="metric-sub">desv. estándar diaria × √252</div>
+          <div class="metric-sub">desv. estandar diaria x sqrt(252)</div>
         </div>
         <div class="metric-tile">
-          <div class="metric-label">Banda 1σ (CAGR ± Vol)</div>
+          <div class="metric-label">Banda 1sigma (CAGR +/- Vol)</div>
           <div class="metric-value band">{r0_sign}{r0:.2f}% / {r1_sign}{r1:.2f}%</div>
-          <div class="metric-sub">escenario típico</div>
+          <div class="metric-sub">escenario tipico</div>
         </div>
         <div class="metric-tile">
           <div class="metric-label">Precio actual</div>
@@ -157,17 +160,100 @@ def _render_market_asset_section(asset: AssetData) -> str:
           <div class="metric-sub">{asset.corte}</div>
         </div>
       </div>
-      <p class="fuente">Fuente: {asset.fuente}&nbsp;·&nbsp;Período: {periodo}</p>
+      <p class="fuente">Fuente: {asset.fuente}&nbsp;·&nbsp;Periodo: {periodo}</p>
     </section>
     """
 
 
-def generate_html(report_data: ReportData) -> Path:
-    """Genera el reporte HTML y retorna su Path."""
+def _render_recommendations_section(recomendaciones: dict) -> str:
+    """Renders the recommendations section with profile cards.
+
+    Each profile (Conservador/Moderado/Agresivo) gets a card with an
+    allocation table and a summary note.
+    """
+    perfiles = recomendaciones.get("perfiles", [])
+    resumen = recomendaciones.get("resumen_mercado", "")
+
+    if not perfiles:
+        return ""
+
+    perfil_colors = {
+        "conservador": ("#d4edda", "#155724"),
+        "moderado": ("#fff3cd", "#856404"),
+        "agresivo": ("#f8d7da", "#721c24"),
+    }
+
+    cards_html = ""
+    for perfil in perfiles:
+        nombre = perfil.get("perfil", "")
+        asignaciones = perfil.get("asignacion", [])
+        nota = perfil.get("nota", "")
+        bg, fg = perfil_colors.get(nombre.lower(), ("#e8eaf6", "#3949ab"))
+
+        rows = ""
+        for a in asignaciones:
+            rows += (
+                f'<tr><td>{a["activo"]}</td>'
+                f'<td><strong>{a["porcentaje"]}%</strong></td>'
+                f'<td>{a["razon"]}</td></tr>\n'
+            )
+
+        cards_html += f"""
+        <div class="group-card" style="margin-bottom: 16px;">
+          <h3 style="background: {bg}; color: {fg};">{nombre}</h3>
+          <table>
+            <thead><tr><th>Activo</th><th>Asignacion</th><th>Razon</th></tr></thead>
+            <tbody>{rows}</tbody>
+          </table>
+          <div style="padding: 10px 14px; font-size: 0.85rem; color: #555;
+                      background: #fafafa; border-top: 1px solid #e0e0e0;">
+            {nota}
+          </div>
+        </div>
+        """
+
+    resumen_html = ""
+    if resumen:
+        resumen_html = f"""
+        <div class="tasa-ref" style="margin-bottom: 20px;">
+          <strong>Contexto de mercado:</strong> {resumen}
+        </div>
+        """
+
+    return f"""
+    <section class="asset-section">
+      <div class="asset-header">
+        <h2>Recomendaciones por Perfil de Inversor</h2>
+        <span class="badge cat">Asignacion Sugerida</span>
+      </div>
+      {resumen_html}
+      <div class="groups-container">
+        {cards_html}
+      </div>
+      <p class="fuente" style="margin-top: 14px;">
+        Generado con IA (GPT-4o-mini) · No constituye asesoria de inversion
+      </p>
+    </section>
+    """
+
+
+def generate_html(
+    report_data: ReportData,
+    recomendaciones: dict | None = None,
+) -> Path:
+    """Genera el reporte HTML y retorna su Path.
+
+    Args:
+        report_data: Asset data collected by the pipeline.
+        recomendaciones: Optional recommendations dict from recommend_node.
+    """
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
     output_path = REPORTS_DIR / f"reporte_{date.today().strftime('%Y%m%d')}.html"
 
     secciones = "".join(_render_asset_section(a) for a in report_data.activos)
+    recomendaciones_html = ""
+    if recomendaciones:
+        recomendaciones_html = _render_recommendations_section(recomendaciones)
     generado = report_data.generado_en.strftime("%d/%m/%Y %H:%M")
 
     html = f"""<!DOCTYPE html>
@@ -308,23 +394,25 @@ def generate_html(report_data: ReportData) -> Path:
 </head>
 <body>
   <header>
-    <h1>Reporte Weekly Alpha · Conciencia Financiera</h1>
+    <h1>Reporte Weekly Alpha - Conciencia Financiera</h1>
     <span class="fecha">Generado: {generado}</span>
   </header>
 
   <main>
     <div class="disclaimer">
-      <strong>Aviso legal:</strong> Este reporte es de carácter informativo y no constituye
-      una recomendación de inversión. La información proviene de fuentes públicas (Superintendencia
+      <strong>Aviso legal:</strong> Este reporte es de caracter informativo y no constituye
+      una recomendacion de inversion. La informacion proviene de fuentes publicas (Superintendencia
       Financiera de Colombia). Consulte con un asesor financiero certificado antes de tomar
-      decisiones de inversión.
+      decisiones de inversion.
     </div>
 
     {secciones}
+
+    {recomendaciones_html}
   </main>
 
   <footer>
-    Conciencia Financiera · Medellín, Colombia · Información de carácter público
+    Conciencia Financiera - Medellin, Colombia - Informacion de caracter publico
   </footer>
 </body>
 </html>"""

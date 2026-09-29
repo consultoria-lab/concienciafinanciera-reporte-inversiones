@@ -30,6 +30,13 @@ node_modules/
 .DS_Store
 Thumbs.db
 
+# Downloaded data and generated reports
+data/downloads/
+reports/
+
 # Temp
 *.stackdump
 nul
+
+# Backup
+backup/
