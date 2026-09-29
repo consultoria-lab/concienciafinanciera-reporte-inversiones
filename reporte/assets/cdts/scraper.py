@@ -9,9 +9,9 @@ import shutil
 from datetime import date
 from pathlib import Path
 
-from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeout
+from playwright.sync_api import sync_playwright
 
-DOWNLOADS_DIR = Path(__file__).parents[2] / "data" / "downloads"
+DOWNLOADS_DIR = Path(__file__).parents[3] / "data" / "downloads"
 SOURCE_URL = (
     "https://www.superfinanciera.gov.co"
     "/Superfinanciera-Tasas/faces/generic/passiveInterestRates.xhtml"
@@ -44,23 +44,14 @@ def download_excel(headless: bool = True) -> Path:
         print(f"[cdts] Navegando a Superfinanciera...")
         page.goto(SOURCE_URL, wait_until="networkidle", timeout=30_000)
 
-        # Seleccionar "CDT" en el selector de producto
-        try:
-            page.select_option("select[id*='product'], select[id*='tipo']", label="CDT")
-        except Exception:
-            page.get_by_text("CDT", exact=False).first.click()
-
+        # El portal usa PrimeFaces tabs. El tab CDT está oculto por defecto;
+        # hay que activarlo primero para que el botón sea visible y clickeable.
+        page.get_by_text("Certificado de depósito a término (CDT)", exact=False).click()
         page.wait_for_load_state("networkidle", timeout=15_000)
 
-        # Hacer clic en "Generar Reporte de excel"
-        try:
-            with page.expect_download(timeout=30_000) as download_info:
-                page.get_by_text("Generar Reporte de excel", exact=False).click()
-            download = download_info.value
-        except PlaywrightTimeout:
-            with page.expect_download(timeout=30_000) as download_info:
-                page.locator("input[value*='excel' i], button[title*='excel' i]").first.click()
-            download = download_info.value
+        with page.expect_download(timeout=30_000) as download_info:
+            page.locator("button[id*='PreferentialCreditForm']").filter(has_text="Excel").click()
+        download = download_info.value
 
         tmp_path = Path(download.path())
         shutil.copy(tmp_path, target)

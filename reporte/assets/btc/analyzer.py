@@ -1,13 +1,10 @@
-"""Analyzer para Petróleo WTI (CL=F) vía yfinance."""
-import sys
+"""Analyzer para Bitcoin (BTC-USD) vía yfinance."""
 from pathlib import Path
 
 import yaml
 
-sys.path.insert(0, str(Path(__file__).parents[2]))
-
-from models import AssetData
-from assets.yfinance_base import fetch_metrics
+from reporte.models import AssetData
+from reporte.assets.yfinance_base import fetch_metrics
 
 _CONFIG_PATH = Path(__file__).parent / "config.yaml"
 
@@ -15,7 +12,7 @@ _CONFIG_PATH = Path(__file__).parent / "config.yaml"
 def analyze() -> AssetData:
     config = yaml.safe_load(open(_CONFIG_PATH, encoding="utf-8"))
     m = fetch_metrics(config["ticker"], years=config["years"])
-    print(f"[wti] CAGR={m['cagr']*100:.2f}%  Vol={m['volatilidad']*100:.2f}%  ({m['n_dias']} días)")
+    print(f"[btc] CAGR={m['cagr']*100:.2f}%  Vol={m['volatilidad']*100:.2f}%  ({m['n_dias']} días)")
     return AssetData(
         asset_name=config["asset_name"],
         categoria=config["categoria"],

@@ -1,0 +1,8 @@
+asset_name: "Deuda Corporativa (FIC)"
+categoria: "Renta Fija"
+subcategoria: "Bonos/Fondos de Inversión"
+nivel_riesgo: "Medio"
+fuente: "datos.gov.co — Fondos de Inversión Colectiva"
+codigo_negocio: 58883
+tipo_participacion: 800
+years: 1

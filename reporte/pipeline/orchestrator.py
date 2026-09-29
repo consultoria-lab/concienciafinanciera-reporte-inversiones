@@ -8,15 +8,11 @@ Los errores en scraping/análisis se loguean pero no detienen el pipeline.
 """
 from __future__ import annotations
 
-import sys
 import traceback
 from pathlib import Path
 from typing import TypedDict
 
-# Añadir raíz del proyecto al path para imports relativos
-sys.path.insert(0, str(Path(__file__).parents[1]))
-
-from models import AssetData, ReportData
+from reporte.models import AssetData, ReportData
 
 try:
     from langgraph.graph import StateGraph, END
@@ -33,6 +29,7 @@ class ReportState(TypedDict):
     activos_data: list[AssetData]
     errores: list[str]
     report_path: str
+    _raw_paths: dict  # paths de archivos descargados por scrape_node
 
 
 # ---------------------------------------------------------------------------
@@ -41,8 +38,8 @@ class ReportState(TypedDict):
 
 def scrape_node(state: ReportState) -> ReportState:
     """Descarga los datos crudos de todos los activos registrados."""
-    from assets.cuentas_ahorro.scraper import download_excel
-    from assets.cdts.scraper import download_excel as download_cdt
+    from reporte.assets.cuentas_ahorro.scraper import download_excel
+    from reporte.assets.cdts.scraper import download_excel as download_cdt
 
     paths = {}
     errores = list(state.get("errores", []))
@@ -70,13 +67,14 @@ def scrape_node(state: ReportState) -> ReportState:
 
 
 _YFINANCE_ASSETS = ["spy", "gld", "wti", "usdcop", "btc"]
+_DATOSGOVCO_ASSETS = ["factoring", "deuda_corporativa"]
 
 
 def analyze_node(state: ReportState) -> ReportState:
     """Analiza los datos descargados y construye AssetData por activo."""
     import importlib
-    from assets.cuentas_ahorro.analyzer import analyze
-    from models import AssetData, AssetGroup, Entidad
+    from reporte.assets.cuentas_ahorro.analyzer import analyze
+    from reporte.models import AssetData, AssetGroup, Entidad
 
     raw_paths: dict = state.get("_raw_paths", {})
     activos_data: list[AssetData] = list(state.get("activos_data", []))
@@ -123,7 +121,7 @@ def analyze_node(state: ReportState) -> ReportState:
 
     if "cdts" in raw_paths:
         try:
-            from assets.cdts.analyzer import analyze as analyze_cdts
+            from reporte.assets.cdts.analyzer import analyze as analyze_cdts
             result = analyze_cdts(raw_paths["cdts"])
 
             grupos = []
@@ -164,10 +162,22 @@ def analyze_node(state: ReportState) -> ReportState:
     # Activos de mercado vía yfinance (no requieren scraping de archivo)
     for asset_key in _YFINANCE_ASSETS:
         try:
-            module = importlib.import_module(f"assets.{asset_key}.analyzer")
+            module = importlib.import_module(f"reporte.assets.{asset_key}.analyzer")
             asset_data = module.analyze()
             activos_data.append(asset_data)
             print(f"[orchestrator] analyze_node ✓ {asset_key} CAGR={asset_data.tasa_referencia}%")
+        except Exception as e:
+            msg = f"[orchestrator] analyze_node ERROR {asset_key}: {e}\n{traceback.format_exc()}"
+            print(msg)
+            errores.append(msg)
+
+    # Activos FIC vía datos.gov.co (no requieren scraping de archivo)
+    for asset_key in _DATOSGOVCO_ASSETS:
+        try:
+            module = importlib.import_module(f"reporte.assets.{asset_key}.analyzer")
+            asset_data = module.analyze()
+            activos_data.append(asset_data)
+            print(f"[orchestrator] analyze_node ✓ {asset_key} Media={asset_data.tasa_referencia}%")
         except Exception as e:
             msg = f"[orchestrator] analyze_node ERROR {asset_key}: {e}\n{traceback.format_exc()}"
             print(msg)
@@ -178,7 +188,7 @@ def analyze_node(state: ReportState) -> ReportState:
 
 def report_node(state: ReportState) -> ReportState:
     """Genera el reporte HTML a partir de los AssetData acumulados."""
-    from pipeline.report_generator import generate_html
+    from reporte.pipeline.report_generator import generate_html
 
     activos_data = state.get("activos_data", [])
     errores = list(state.get("errores", []))
@@ -225,12 +235,13 @@ def run_pipeline() -> ReportState:
             "activos_data": [],
             "errores": [],
             "report_path": "",
+            "_raw_paths": {},
         }
         final_state = app.invoke(initial_state)
     else:
         # Modo fallback sin LangGraph: ejecutar nodos en secuencia
         print("[orchestrator] langgraph no disponible, ejecutando en modo secuencial.")
-        state: ReportState = {"activos_data": [], "errores": [], "report_path": ""}
+        state: ReportState = {"activos_data": [], "errores": [], "report_path": "", "_raw_paths": {}}
         state = scrape_node(state)
         state = analyze_node(state)
         state = report_node(state)

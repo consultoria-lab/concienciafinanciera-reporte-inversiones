@@ -8,9 +8,9 @@ import shutil
 from datetime import date
 from pathlib import Path
 
-from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeout
+from playwright.sync_api import sync_playwright
 
-DOWNLOADS_DIR = Path(__file__).parents[2] / "data" / "downloads"
+DOWNLOADS_DIR = Path(__file__).parents[3] / "data" / "downloads"
 SOURCE_URL = (
     "https://www.superfinanciera.gov.co"
     "/Superfinanciera-Tasas/faces/generic/passiveInterestRates.xhtml"
@@ -43,27 +43,11 @@ def download_excel(headless: bool = True) -> Path:
         print(f"[cuentas_ahorro] Navegando a Superfinanciera...")
         page.goto(SOURCE_URL, wait_until="networkidle", timeout=30_000)
 
-        # Seleccionar "Cuenta de ahorros" en el selector de producto
-        try:
-            # El portal usa un <select> o botones de radio para elegir el producto
-            # Intentar con el select primero
-            page.select_option("select[id*='product'], select[id*='tipo']", label="Cuenta de ahorros")
-        except Exception:
-            # Alternativa: buscar por texto visible
-            page.get_by_text("Cuenta de ahorros", exact=False).first.click()
-
-        page.wait_for_load_state("networkidle", timeout=15_000)
-
-        # Hacer clic en "Generar Reporte de excel"
-        try:
-            with page.expect_download(timeout=30_000) as download_info:
-                page.get_by_text("Generar Reporte de excel", exact=False).click()
-            download = download_info.value
-        except PlaywrightTimeout:
-            # Fallback: buscar botón por atributo value o title
-            with page.expect_download(timeout=30_000) as download_info:
-                page.locator("input[value*='excel' i], button[title*='excel' i]").first.click()
-            download = download_info.value
+        # El portal usa PrimeFaces tabs; el formulario de Cuenta de Ahorros
+        # es "ordinaryForm". El botón Excel está disponible directamente.
+        with page.expect_download(timeout=30_000) as download_info:
+            page.locator("button[id*='ordinaryForm']").filter(has_text="Excel").click()
+        download = download_info.value
 
         # Guardar en destino
         tmp_path = Path(download.path())

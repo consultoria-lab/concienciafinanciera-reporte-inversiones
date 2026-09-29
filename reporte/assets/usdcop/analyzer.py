@@ -4,15 +4,12 @@ Analyzer para USD/COP vía yfinance.
 El ticker USDCOP=X devuelve COP por 1 USD. El CAGR calculado representa
 la apreciación anualizada del dólar frente al peso colombiano.
 """
-import sys
 from pathlib import Path
 
 import yaml
 
-sys.path.insert(0, str(Path(__file__).parents[2]))
-
-from models import AssetData
-from assets.yfinance_base import fetch_metrics
+from reporte.models import AssetData
+from reporte.assets.yfinance_base import fetch_metrics
 
 _CONFIG_PATH = Path(__file__).parent / "config.yaml"
 

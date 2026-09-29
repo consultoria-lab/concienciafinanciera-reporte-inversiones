@@ -6,15 +6,12 @@ un archivo HTML en reports/reporte_YYYYMMDD.html.
 """
 from __future__ import annotations
 
-import sys
 from datetime import date
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parents[1]))
+from reporte.models import AssetData, AssetGroup, ReportData
 
-from models import AssetData, AssetGroup, ReportData
-
-REPORTS_DIR = Path(__file__).parents[1] / "reports"
+REPORTS_DIR = Path(__file__).parents[2] / "reports"
 
 
 def _render_group_table(grupo: AssetGroup) -> str:
@@ -40,6 +37,8 @@ def _render_group_table(grupo: AssetGroup) -> str:
 
 def _render_asset_section(asset: AssetData) -> str:
     if asset.metricas_mercado is not None:
+        if asset.metricas_mercado.get("tipo") == "fic":
+            return _render_fic_section(asset)
         return _render_market_asset_section(asset)
     return _render_renta_fija_section(asset)
 
@@ -64,6 +63,54 @@ def _render_renta_fija_section(asset: AssetData) -> str:
         {grupos_html}
       </div>
       <p class="fuente">Fuente: {asset.fuente}</p>
+    </section>
+    """
+
+
+def _render_fic_section(asset: AssetData) -> str:
+    """Renderiza sección para activos FIC (Fondos de Inversión Colectiva)."""
+    m = asset.metricas_mercado
+    media_pct = m["rentabilidad_media"] * 100
+    vol_pct = m["volatilidad"] * 100
+    r0, r1 = m["rango_1sigma"][0] * 100, m["rango_1sigma"][1] * 100
+    nombre_fondo = m.get("nombre_patrimonio", "N/A")
+    n_registros = m.get("n_registros", 0)
+    periodo = m.get("periodo", "")
+    sub_badge = f'<span class="badge subcat">{asset.subcategoria}</span>' if asset.subcategoria else ""
+    sign = "+" if media_pct >= 0 else ""
+    r0_sign = "+" if r0 >= 0 else ""
+    r1_sign = "+" if r1 >= 0 else ""
+    return f"""
+    <section class="asset-section">
+      <div class="asset-header">
+        <h2>{asset.asset_name}</h2>
+        <span class="badge riesgo-{asset.nivel_riesgo.lower()}">{asset.nivel_riesgo} Riesgo</span>
+        <span class="badge cat">{asset.categoria}</span>
+        {sub_badge}
+      </div>
+      <div class="market-metrics-strip">
+        <div class="metric-tile">
+          <div class="metric-label">Rentabilidad media anual</div>
+          <div class="metric-value cagr">{sign}{media_pct:.2f}%</div>
+          <div class="metric-sub">promedio último año</div>
+        </div>
+        <div class="metric-tile">
+          <div class="metric-label">Volatilidad (σ)</div>
+          <div class="metric-value vol">{vol_pct:.2f}%</div>
+          <div class="metric-sub">desv. estándar rentabilidad anual</div>
+        </div>
+        <div class="metric-tile">
+          <div class="metric-label">Banda ±1σ</div>
+          <div class="metric-value band">{r0_sign}{r0:.2f}% / {r1_sign}{r1:.2f}%</div>
+          <div class="metric-sub">escenario típico</div>
+        </div>
+        <div class="metric-tile">
+          <div class="metric-label">Fondo</div>
+          <div class="metric-value price" style="font-size: 0.85rem;">{nombre_fondo}</div>
+          <div class="metric-sub">{n_registros} registros</div>
+        </div>
+      </div>
+      <p class="fuente">Fuente: {asset.fuente}&nbsp;·&nbsp;Período: {periodo}</p>
     </section>
     """
 
